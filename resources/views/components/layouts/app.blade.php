@@ -14,13 +14,14 @@
     @livewireStyles
 </head>
 
-<body class="bg-slate-200 dark:bg-slate-700">
+<body class="min-h-screen flex flex-col bg-slate-200 dark:bg-slate-700">
 
     @livewire('partials.navbar')
 
-    <main>
+    <main class="flex-1">
         {{ $slot }}
     </main>
+
     @livewire('partials.footer')
 
     {{-- Livewire JS --}}
