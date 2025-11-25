@@ -32,6 +32,9 @@ class ProductsPage extends Component
     #[Url]
     public $price_range = 300000;
 
+    #[Url]
+    public $sort = 'latest';
+
     /* -------------------------
         RESET PAGE WHEN FILTERS CHANGE
     ------------------------- */
@@ -82,6 +85,12 @@ class ProductsPage extends Component
 
         if ($this->price_range) {
             $productQuery->whereBetween('price', [0, $this->price_range]);
+        }
+
+        if ($this->sort === 'price') {
+            $productQuery->orderBy('price', 'asc');
+        } else {
+            $productQuery->orderBy('created_at', 'desc');
         }
 
         return view('livewire.products-page', [
