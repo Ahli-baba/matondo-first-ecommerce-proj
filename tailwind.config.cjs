@@ -7,8 +7,12 @@ module.exports = {
     "node_modules/preline/dist/*.js",
   ],
   darkMode: 'class',
-  theme: { extend: {} },
+
+  theme: {
+    extend: {},
+  },
   plugins: [
     require("preline/plugin"),
+    //require("@tailwindcss/typography"),   // <--- ADD THIS
   ],
 };
