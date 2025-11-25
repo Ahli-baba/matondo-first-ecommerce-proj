@@ -14,6 +14,21 @@
     @livewireStyles
 </head>
 
+<script>
+    Livewire.on('alert', data => {
+        Swal.fire({
+            icon: data.type,
+            title: data.title,
+            text: data.text,
+            toast: true,
+            position: 'bottom-end',
+            timer: 3000,
+            showConfirmButton: false,
+        });
+    });
+</script>
+
+
 <body class="min-h-screen flex flex-col bg-slate-200 dark:bg-slate-700">
 
     @livewire('partials.navbar')
@@ -26,6 +41,9 @@
 
     {{-- Livewire JS --}}
     @livewireScripts
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <x - livewire-alert::scripts />
 </body>
 
 </html>

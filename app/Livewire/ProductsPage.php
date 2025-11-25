@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Helpers\CartManagement;
+use App\Livewire\Partials\Navbar;
 use App\Models\Brand;
 use App\Models\Category;
 use Livewire\Component;
@@ -9,10 +11,15 @@ use Livewire\Attributes\Title;
 use App\Models\Product;
 use Livewire\Attributes\Url;
 use Livewire\WithPagination;
+use Jantinnerezo\LivewireAlert\Concerns\SweetAlert2;
+
 
 #[Title('Products Page - Matondo I Dagupan - CodeMania')]
 class ProductsPage extends Component
 {
+    use SweetAlert2;
+    public $alert;
+
     use WithPagination;
 
     protected $paginationTheme = 'tailwind';
@@ -62,6 +69,25 @@ class ProductsPage extends Component
     {
         $this->resetPage();
     }
+
+    public function addToCart($product_id): void
+    {
+        $total_count = CartManagement::addItemToCart(product_id: $product_id);
+
+        $this->dispatch('update-cart-count', total_count: $total_count)
+            ->to(Navbar::class);
+
+        $this->dispatch('alert', [
+            'text' => 'Product added to the cart successfully!',
+            'toast' => true,
+            'position' => 'bottom-end',
+            'timer' => 3000,
+        ]);
+    }
+
+
+
+
 
     public function render()
     {
