@@ -31,7 +31,8 @@
 
 <body class="min-h-screen flex flex-col bg-slate-200 dark:bg-slate-700">
 
-    @livewire('partials.navbar')
+    <livewire:partials.navbar />
+
 
     <main class="flex-1">
         {{ $slot }}
