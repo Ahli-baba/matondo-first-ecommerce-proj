@@ -18,12 +18,17 @@ class LoginPage extends Component
             'password' => 'required|min:6|max:255',
         ]);
 
-        if (!auth()->attempt(['email' => $this->email, 'password' => $this->password])) {
+        if (!auth()->attempt([
+            'email' => $this->email,
+            'password' => $this->password
+        ])) {
             session()->flash('error', 'Invalid credentials. Please try again.');
             return;
         }
+
         return redirect()->intended();
     }
+
     public function render()
     {
         return view('livewire.auth.login-page');
