@@ -126,35 +126,46 @@ class CartManagement
     }
 
     // increment item quantity
-    static public function incrementQuantityToCartItem($product_id)
+    static public function incrementQuantityToCartItem($product_id, $qty = 1)
     {
         $cart_items = self::getCartItemsFromCookie();
 
         foreach ($cart_items as $key => $item) {
             if ($item['product_id'] == $product_id) {
-                $cart_items[$key]['quantity']++;
-                $cart_items[$key]['total_amount'] = $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount'];
+                $cart_items[$key]['quantity'] += $qty;
+                $cart_items[$key]['total_amount'] =
+                    $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount'];
             }
         }
+
         self::addCartItemsToCookie($cart_items);
         return $cart_items;
     }
+
     // decrement item quantity
-    static public function decrementQuantityToCartItem($product_id)
+    static public function decrementQuantityToCartItem($product_id, $qty = 1)
     {
         $cart_items = self::getCartItemsFromCookie();
+
         foreach ($cart_items as $key => $item) {
             if ($item['product_id'] == $product_id) {
                 if ($cart_items[$key]['quantity'] > 1) {
-                    $cart_items[$key]['quantity']--;
-                    $cart_items[$key]['total_amount'] = $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount'];
+                    $cart_items[$key]['quantity'] -= $qty;
+
+                    if ($cart_items[$key]['quantity'] < 1) {
+                        $cart_items[$key]['quantity'] = 1; // prevent negative values
+                    }
+
+                    $cart_items[$key]['total_amount'] =
+                        $cart_items[$key]['quantity'] * $cart_items[$key]['unit_amount'];
                 }
             }
         }
-        self::addCartItemsToCookie($cart_items);
 
+        self::addCartItemsToCookie($cart_items);
         return $cart_items;
     }
+
 
     // calculate grand total
     static public function calculateGrandTotal($items)
