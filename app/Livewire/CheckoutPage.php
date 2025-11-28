@@ -10,7 +10,8 @@ use App\Models\Address;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use Illuminate\Support\Facades\Redirect;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderPlaced;
 
 #[Title('Checkout')]
 class CheckoutPage extends Component
@@ -105,6 +106,7 @@ class CheckoutPage extends Component
         $address->save();
         $order->items()->createMany($cart_items);
         CartManagement::clearCartCookie();
+        Mail::to(request()->user())->send(new OrderPlaced($order));
         return redirect($redirect_url);
     }
 
