@@ -20,11 +20,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
 Route::get('/', HomePage::class);
@@ -34,9 +29,9 @@ Route::get('/cart', CartPage::class);
 Route::get('/products/{slug}', ProductDetailPage::class);
 Route::get('/checkout', CheckoutPage::class);
 Route::get('/my-orders', MyOrdersPage::class);
-Route::get('/my-orders/{order}', MyOrderDetailPage::class);
-
-
+Route::get('/my-orders/{order_id}', MyOrderDetailPage::class)->name('my-orders.show');
+Route::get('/success', SuccessPage::class)->name('success');
+Route::get('/cancel', CancelPage::class)->name('cancel');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', LoginPage::class)->name('login');
@@ -50,9 +45,4 @@ Route::middleware('auth')->group(function () {
         auth()->logout();
         return redirect('/');
     });
-    Route::get('/checkout', CheckoutPage::class);
-    Route::get('/my-orders', MyOrdersPage::class);
-    Route::get('/my-orders/{order}', MyOrderDetailPage::class)->name('my-orders.show');
-    Route::get('/success', SuccessPage::class)->name('success');
-    Route::get('/cancel', CancelPage::class)->name('cancel');
 });
